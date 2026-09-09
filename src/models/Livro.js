@@ -46,6 +46,15 @@ class Livro {
     this.#estoque = this.#estoque - quantidade;
     console.log("Venda registrada. Restam " + this.#estoque + " unidades.");
   }
+
+  toJSON() {
+    return {
+      titulo: this.titulo,
+      autor: this.autor,
+      preco: this.#preco,
+      estoque: this.#estoque,
+    };
+  }
 }
 
 module.exports = Livro;
