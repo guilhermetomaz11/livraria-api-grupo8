@@ -7,9 +7,26 @@ const livros = [
   new Livro("Eloquent JavaScript", "Marjin Haverbeke", 45.0, 20, "Programação"),
 ];
 
-function listarLivros() {
-  // Retorna os livros convertidos para JSON para não expor os campos privados (#) diretamente
-  return livros.map(l => typeof l.toJSON === 'function' ? l.toJSON() : l);
+// Agora recebe os filtros por parâmetro ou retorna todos caso venha vazio
+function listarLivros(filtros = {}) {
+  let resultado = livros;
+
+  // Filtro por autor (ignora maiúsculas/minúsculas)
+  if (filtros.autor) {
+    resultado = resultado.filter((livro) =>
+      livro.autor.toLowerCase().includes(filtros.autor.toLowerCase())
+    );
+  }
+
+  // Filtro por preço máximo (converte a string para número)
+  if (filtros.precoMax) {
+    resultado = resultado.filter((livro) => 
+      livro.preco <= Number(filtros.precoMax)
+    );
+  }
+
+  // Retorna os livros (filtrados ou todos) convertidos para JSON para não expor os campos privados (#) diretamente
+  return resultado.map(l => typeof l.toJSON === 'function' ? l.toJSON() : l);
 }
 
 function buscarLivroPorIndice(indice) {
@@ -30,7 +47,7 @@ function criarLivro(dados) {
   return typeof novoLivro.toJSON === 'function' ? novoLivro.toJSON() : novoLivro;
 }
 
-// ADICIONADO: Método PUT (Atualização completa)
+// Método PUT (Atualização completa)
 function atualizarCompletoLivro(indice, dados) {
   if (!livros[indice]) return null;
 
@@ -44,7 +61,7 @@ function atualizarCompletoLivro(indice, dados) {
   return livros[indice].toJSON();
 }
 
-// ADICIONADO: Método PATCH (Atualização parcial com validação !== undefined)
+// Método PATCH (Atualização parcial com validação !== undefined)
 function atualizarParcialLivro(indice, dados) {
   const livro = livros[indice];
   if (!livro) return null;
@@ -59,7 +76,7 @@ function atualizarParcialLivro(indice, dados) {
   return livro.toJSON();
 }
 
-// ADICIONADO: Método DELETE (Remover livro)
+// Método DELETE (Remover livro)
 function deletarLivro(indice) {
   if (!livros[indice]) return false;
   
@@ -68,7 +85,7 @@ function deletarLivro(indice) {
   return true;
 }
 
-// Exportando todas as funções antigas e as novas para o controller utilizar
+// Exportando as funções prontas para o controller utilizar
 module.exports = { 
   listarLivros, 
   buscarLivroPorIndice, 

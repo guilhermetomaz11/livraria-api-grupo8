@@ -1,9 +1,11 @@
 // src/controllers/livroController.js
 const livroService = require("../services/livroService");
 
+// ATUALIZADO: Agora captura e aplica os filtros de query params
 function listar(req, res) {
-  const livros = livroService.listarLivros();
-  res.json(livros);
+  const filtros = req.query;
+  const livros = livroService.listarLivros(filtros);
+  res.status(200).json(livros);
 }
 
 function buscarPorIndice(req, res) {
@@ -34,7 +36,7 @@ function atualizarCompleto(req, res) {
   const livroAtualizado = livroService.atualizarCompletoLivro(indice, req.body);
 
   if (!livroAtualizado) {
-    return res.status(404).json({ erro: "Livro nao encontrado" });
+    return res.status(404).json({ erro: "Livro não encontrado" });
   }
 
   res.status(200).json(livroAtualizado); // 200 OK conforme tabela de testes
