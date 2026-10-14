@@ -18,10 +18,24 @@ function listarLivros(filtros = {}) {
     );
   }
 
+  // Parte 3 — Filtro por título (ignora maiúsculas/minúsculas)
+  if (filtros.titulo) {
+    resultado = resultado.filter((livro) =>
+      livro.titulo.toLowerCase().includes(filtros.titulo.toLowerCase()),
+    );
+  }
+
   // Filtro por preço máximo (converte a string para número)
   if (filtros.precoMax) {
     resultado = resultado.filter(
       (livro) => livro.preco <= Number(filtros.precoMax),
+    );
+  }
+
+  // Filtro por preço mínimo (Bónus)
+  if (filtros.precoMin) {
+    resultado = resultado.filter(
+      (livro) => livro.preco >= Number(filtros.precoMin),
     );
   }
 
