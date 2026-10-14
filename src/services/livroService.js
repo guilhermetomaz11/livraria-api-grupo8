@@ -14,25 +14,27 @@ function listarLivros(filtros = {}) {
   // Filtro por autor (ignora maiúsculas/minúsculas)
   if (filtros.autor) {
     resultado = resultado.filter((livro) =>
-      livro.autor.toLowerCase().includes(filtros.autor.toLowerCase())
+      livro.autor.toLowerCase().includes(filtros.autor.toLowerCase()),
     );
   }
 
   // Filtro por preço máximo (converte a string para número)
   if (filtros.precoMax) {
-    resultado = resultado.filter((livro) => 
-      livro.preco <= Number(filtros.precoMax)
+    resultado = resultado.filter(
+      (livro) => livro.preco <= Number(filtros.precoMax),
     );
   }
 
   // Retorna os livros (filtrados ou todos) convertidos para JSON para não expor os campos privados (#) diretamente
-  return resultado.map(l => typeof l.toJSON === 'function' ? l.toJSON() : l);
+  return resultado.map((l) =>
+    typeof l.toJSON === "function" ? l.toJSON() : l,
+  );
 }
 
 function buscarLivroPorIndice(indice) {
   const livro = livros[indice];
   if (!livro) return null;
-  return typeof livro.toJSON === 'function' ? livro.toJSON() : livro;
+  return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
 function criarLivro(dados) {
@@ -41,10 +43,12 @@ function criarLivro(dados) {
     dados.autor,
     dados.preco,
     dados.estoque,
-    dados.categoria
+    dados.categoria,
   );
   livros.push(novoLivro);
-  return typeof novoLivro.toJSON === 'function' ? novoLivro.toJSON() : novoLivro;
+  return typeof novoLivro.toJSON === "function"
+    ? novoLivro.toJSON()
+    : novoLivro;
 }
 
 // Método PUT (Atualização completa)
@@ -79,18 +83,18 @@ function atualizarParcialLivro(indice, dados) {
 // Método DELETE (Remover livro)
 function deletarLivro(indice) {
   if (!livros[indice]) return false;
-  
+
   // Remove o elemento do array baseado no índice de forma correta
   livros.splice(indice, 1);
   return true;
 }
 
 // Exportando as funções prontas para o controller utilizar
-module.exports = { 
-  listarLivros, 
-  buscarLivroPorIndice, 
+module.exports = {
+  listarLivros,
+  buscarLivroPorIndice,
   criarLivro,
   atualizarCompletoLivro,
   atualizarParcialLivro,
-  deletarLivro
+  deletarLivro,
 };
