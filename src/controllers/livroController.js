@@ -21,9 +21,9 @@ function buscarPorIndice(req, res) {
 }
 
 function criar(req, res) {
-  // Tratamento de erro sugerido na Parte 3 (caso esqueçam o Content-Type)
+  // Validação do req.body
   if (!req.body || Object.keys(req.body).length === 0) {
-    return res.status(500).json({ erro: "Falha ao criar livro. Verifique o Content-Type: application/json nos headers." });
+    return res.status(400).json({ erro: "Falha ao criar livro. Verifique o Content-Type: application/json nos headers." });
   }
 
   const novoLivro = livroService.criarLivro(req.body);
@@ -67,7 +67,7 @@ function deletar(req, res) {
   res.status(204).send(); 
 }
 
-// Exportando as funções antigas e as novas para as rotas utilizarem
+// Exportando as funções para as rotas utilizarem
 module.exports = { 
   listar, 
   buscarPorIndice, 
