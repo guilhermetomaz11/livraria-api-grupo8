@@ -1,56 +1,68 @@
 // src/services/livroService.js
 const { Livro } = require("../models/Livro");
 
-// Banco de dados simulado (com dados iniciais atualizados)
-const livros = [
-  new Livro("Clean Code", "Robert C. Martin", 89.9, 12, "Programação"),
-  new Livro("Eloquent JavaScript", "Marjin Haverbeke", 45.0, 20, "Programação"),
-];
+// 1. Lista de livros vazia e contador do ID no topo absoluto do arquivo
+const livros = [];
+let proximoId = 1;
 
-// Agora recebe os filtros por parâmetro ou retorna todos caso venha vazio
+// 2. Cadastro dos livros iniciais usando a função criarLivro para gerar os IDs 1 e 2 automaticamente
+criarLivro({
+  titulo: "Clean Code",
+  autor: "Robert C. Martin",
+  preco: 89.9,
+  estoque: 12,
+  categoria: "Programação",
+});
+
+criarLivro({
+  titulo: "Eloquent JavaScript",
+  autor: "Marijn Haverbeke",
+  preco: 45.0,
+  estoque: 20,
+  categoria: "Programação",
+});
+
+// Listar livros (mantém os filtros funcionamos por autor, título e preços)
 function listarLivros(filtros = {}) {
   let resultado = livros;
 
-  // Filtro por autor (ignora maiúsculas/minúsculas)
   if (filtros.autor) {
     resultado = resultado.filter((livro) =>
       livro.autor.toLowerCase().includes(filtros.autor.toLowerCase()),
     );
   }
 
-  // Parte 3 — Filtro por título (ignora maiúsculas/minúsculas)
   if (filtros.titulo) {
     resultado = resultado.filter((livro) =>
       livro.titulo.toLowerCase().includes(filtros.titulo.toLowerCase()),
     );
   }
 
-  // Filtro por preço máximo (converte a string para número)
   if (filtros.precoMax) {
     resultado = resultado.filter(
       (livro) => livro.preco <= Number(filtros.precoMax),
     );
   }
 
-  // Filtro por preço mínimo (Bónus)
   if (filtros.precoMin) {
     resultado = resultado.filter(
       (livro) => livro.preco >= Number(filtros.precoMin),
     );
   }
 
-  // Retorna os livros (filtrados ou todos) convertidos para JSON para não expor os campos privados (#) diretamente
   return resultado.map((l) =>
     typeof l.toJSON === "function" ? l.toJSON() : l,
   );
 }
 
-function buscarLivroPorIndice(indice) {
-  const livro = livros[indice];
+// 3. Buscar pelo ID (usando .find e Number(id))
+function buscarLivroPorId(id) {
+  const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
   return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
+// 4. Criar livro atribuindo e incrementando o proximoId
 function criarLivro(dados) {
   const novoLivro = new Livro(
     dados.titulo,
@@ -59,54 +71,57 @@ function criarLivro(dados) {
     dados.estoque,
     dados.categoria,
   );
+
+  novoLivro.id = proximoId; // Atribui o ID atual
+  proximoId++; // Gira a catraca do ID
+
   livros.push(novoLivro);
   return typeof novoLivro.toJSON === "function"
     ? novoLivro.toJSON()
     : novoLivro;
 }
 
-// Método PUT (Atualização completa)
-function atualizarCompletoLivro(indice, dados) {
-  if (!livros[indice]) return null;
-
-  // Substitui todos os campos usando os setters do modelo
-  livros[indice].titulo = dados.titulo;
-  livros[indice].autor = dados.autor;
-  livros[indice].preco = dados.preco;
-  livros[indice].estoque = dados.estoque;
-  if (dados.categoria) livros[indice].categoria = dados.categoria;
-
-  return livros[indice].toJSON();
-}
-
-// Método PATCH (Atualização parcial com validação !== undefined)
-function atualizarParcialLivro(indice, dados) {
-  const livro = livros[indice];
+// 5. Método PUT (Atualização completa por ID)
+function atualizarCompletoLivro(id, dados) {
+  const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
 
-  // Critério de correção do checklist: garante alteração apenas dos campos enviados
+  livro.titulo = dados.titulo;
+  livro.autor = dados.autor;
+  livro.preco = dados.preco;
+  livro.estoque = dados.estoque;
+  if (dados.categoria !== undefined) livro.categoria = dados.categoria;
+
+  return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
+}
+
+// 6. Método PATCH (Atualização parcial por ID)
+function atualizarParcialLivro(id, dados) {
+  const livro = livros.find((l) => l.id === Number(id));
+  if (!livro) return null;
+
   if (dados.titulo !== undefined) livro.titulo = dados.titulo;
   if (dados.autor !== undefined) livro.autor = dados.autor;
   if (dados.preco !== undefined) livro.preco = dados.preco;
   if (dados.estoque !== undefined) livro.estoque = dados.estoque;
   if (dados.categoria !== undefined) livro.categoria = dados.categoria;
 
-  return livro.toJSON();
+  return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
-// Método DELETE (Remover livro)
-function deletarLivro(indice) {
-  if (!livros[indice]) return false;
+// 7. Método DELETE (Remover livro por ID via findIndex)
+function deletarLivro(id) {
+  const posicao = livros.findIndex((l) => l.id === Number(id));
+  if (posicao === -1) return false;
 
-  // Remove o elemento do array baseado no índice de forma correta
-  livros.splice(indice, 1);
+  livros.splice(posicao, 1);
   return true;
 }
 
-// Exportando as funções prontas para o controller utilizar
+// Exportando as funções atualizadas (buscarLivroPorId no lugar de buscarLivroPorIndice)
 module.exports = {
   listarLivros,
-  buscarLivroPorIndice,
+  buscarLivroPorId,
   criarLivro,
   atualizarCompletoLivro,
   atualizarParcialLivro,
