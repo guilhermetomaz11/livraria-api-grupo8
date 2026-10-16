@@ -1,11 +1,11 @@
 // src/services/livroService.js
-const { Livro } = require("../models/Livro");
+const Livro = require("../models/Livro");
 
-// 1. Lista de livros vazia e contador do ID no topo absoluto do arquivo
+// 1. Lista de livros em memória e contador do ID
 const livros = [];
 let proximoId = 1;
 
-// 2. Cadastro dos livros iniciais usando a função criarLivro para gerar os IDs 1 e 2 automaticamente
+// 2. Cadastro dos livros iniciais (gera os IDs 1 e 2 automaticamente)
 criarLivro({
   titulo: "Clean Code",
   autor: "Robert C. Martin",
@@ -22,40 +22,40 @@ criarLivro({
   categoria: "Programação",
 });
 
-// Listar livros (mantém os filtros funcionamos por autor, título e preços)
+// Listar livros (com suporte aos filtros por query string)
 function listarLivros(filtros = {}) {
   let resultado = livros;
 
   if (filtros.autor) {
     resultado = resultado.filter((livro) =>
-      livro.autor.toLowerCase().includes(filtros.autor.toLowerCase()),
+      livro.autor.toLowerCase().includes(filtros.autor.toLowerCase())
     );
   }
 
   if (filtros.titulo) {
     resultado = resultado.filter((livro) =>
-      livro.titulo.toLowerCase().includes(filtros.titulo.toLowerCase()),
+      livro.titulo.toLowerCase().includes(filtros.titulo.toLowerCase())
     );
   }
 
   if (filtros.precoMax) {
     resultado = resultado.filter(
-      (livro) => livro.preco <= Number(filtros.precoMax),
+      (livro) => livro.preco <= Number(filtros.precoMax)
     );
   }
 
   if (filtros.precoMin) {
     resultado = resultado.filter(
-      (livro) => livro.preco >= Number(filtros.precoMin),
+      (livro) => livro.preco >= Number(filtros.precoMin)
     );
   }
 
   return resultado.map((l) =>
-    typeof l.toJSON === "function" ? l.toJSON() : l,
+    typeof l.toJSON === "function" ? l.toJSON() : l
   );
 }
 
-// 3. Buscar pelo ID (usando .find e Number(id))
+// 3. Buscar pelo ID
 function buscarLivroPorId(id) {
   const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
@@ -69,11 +69,11 @@ function criarLivro(dados) {
     dados.autor,
     dados.preco,
     dados.estoque,
-    dados.categoria,
+    dados.categoria
   );
 
-  novoLivro.id = proximoId; // Atribui o ID atual
-  proximoId++; // Gira a catraca do ID
+  novoLivro.id = proximoId;
+  proximoId++;
 
   livros.push(novoLivro);
   return typeof novoLivro.toJSON === "function"
@@ -82,7 +82,7 @@ function criarLivro(dados) {
 }
 
 // 5. Método PUT (Atualização completa por ID)
-function atualizarCompletoLivro(id, dados) {
+function atualizarLivro(id, dados) {
   const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
 
@@ -118,12 +118,11 @@ function deletarLivro(id) {
   return true;
 }
 
-// Exportando as funções atualizadas (buscarLivroPorId no lugar de buscarLivroPorIndice)
 module.exports = {
   listarLivros,
   buscarLivroPorId,
   criarLivro,
-  atualizarCompletoLivro,
+  atualizarLivro,
   atualizarParcialLivro,
   deletarLivro,
 };

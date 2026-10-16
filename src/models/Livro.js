@@ -15,7 +15,6 @@ class Livro {
     console.log("Autor: " + this.autor);
     console.log("Preco: " + this.#preco);
     console.log("Estoque: " + this.#estoque + " unidades");
-    // Verificação para não quebrar caso a categoria seja passada como string ou vazia nos testes
     console.log("Categoria: " + (this.categoria?.nome || this.categoria || "Nenhuma"));
   }
 
@@ -60,7 +59,7 @@ class Livro {
 
   toJSON() {
     return {
-      id: this.id, // <--- ADICIONADO: Propriedade ID incluída na resposta REST
+      id: this.id, // ID na primeira linha para a API REST
       titulo: this.titulo,
       autor: this.autor,
       preco: this.#preco,
@@ -70,11 +69,5 @@ class Livro {
   }
 }
 
-// Simulando o array/banco de dados com dados iniciais fictícios para os testes funcionarem
-const livrosConst = [
-  new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 49.90, 10, { nome: "Fantasia" }),
-  new Livro("1984", "George Orwell", 34.90, 5, { nome: "Distopia" })
-];
-
-// Exportando a classe e o array simulado para o livroService usar
-module.exports = { Livro, livrosConst };
+// Exportação simples da classe para coincidir com o require do livroService
+module.exports = Livro;
