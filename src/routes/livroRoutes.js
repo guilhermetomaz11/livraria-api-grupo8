@@ -3,14 +3,12 @@ const express = require("express");
 const livroController = require("../controllers/livroController");
 const router = express.Router();
 
-// Rotas já existentes (GET e POST)
+// Rotas da API REST mapeadas por ID (:id)
 router.get("/", livroController.listar);
-router.get("/:indice", livroController.buscarPorIndice);    
+router.get("/:id", livroController.buscarPorId);          // Alterado de /:indice e buscarPorIndice para /:id e buscarPorId
 router.post("/", livroController.criar);
-
-// ADICIONADO: Rotas para a Atividade 12 (PUT, PATCH e DELETE)
-router.put("/:indice", livroController.atualizarCompleto);
-router.patch("/:indice", livroController.atualizarParcial);
-router.delete("/:indice", livroController.deletar);
+router.put("/:id", livroController.atualizar);            // Alterado de /:indice e atualizarCompleto para /:id e atualizar
+router.patch("/:id", livroController.atualizarParcial);   // Alterado de /:indice para /:id
+router.delete("/:id", livroController.deletar);          // Alterado de /:indice para /:id
 
 module.exports = router;

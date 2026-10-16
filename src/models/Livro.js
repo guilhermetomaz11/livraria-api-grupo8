@@ -31,7 +31,7 @@ class Livro {
     return this.#estoque;
   }
 
-  // Set preco (Já estava no seu código original)
+  // Set preco
   set preco(novoPreco) {
     if (novoPreco < 0) {
       console.log("ERRO: preco nao pode ser negativo. Valor recusado.");
@@ -40,7 +40,7 @@ class Livro {
     this.#preco = novoPreco;
   }
 
-  // ADICIONADO: Set estoque (Exigência obrigatória do checklist da atividade)
+  // Set estoque
   set estoque(novoEstoque) {
     if (novoEstoque < 0) {
       console.log("ERRO: estoque nao pode ser negativo. Valor recusado.");
@@ -60,6 +60,7 @@ class Livro {
 
   toJSON() {
     return {
+      id: this.id, // <--- ADICIONADO: Propriedade ID incluída na resposta REST
       titulo: this.titulo,
       autor: this.autor,
       preco: this.#preco,

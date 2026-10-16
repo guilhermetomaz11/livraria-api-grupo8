@@ -1,78 +1,72 @@
 // src/controllers/livroController.js
 const livroService = require("../services/livroService");
 
-// ATUALIZADO: Agora captura e aplica os filtros de query params
+// GET /livros
 function listar(req, res) {
-  const filtros = req.query;
-  const livros = livroService.listarLivros(filtros);
-  res.status(200).json(livros);
+  const livros = livroService.listarLivros(req.query);
+  return res.status(200).json(livros);
 }
 
-function buscarPorIndice(req, res) {
-  const indice = req.params.indice;
-  const livro = livroService.buscarLivroPorIndice(Number(indice)); // Convertido para número
+// GET /livros/:id
+function buscarPorId(req, res) {
+  const id = req.params.id; // Alterado de req.params.indice para req.params.id
+  const livro = livroService.buscarLivroPorId(id); // Chama buscarLivroPorId no service
 
   if (!livro) {
-    res.status(404).json({ erro: "Livro nao encontrado" });
-    return;
+    return res.status(404).json({ mensagem: "Livro não encontrado." });
   }
 
-  res.json(livro);
+  return res.status(200).json(livro);
 }
 
+// POST /livros
 function criar(req, res) {
-  // Validação do req.body
-  if (!req.body || Object.keys(req.body).length === 0) {
-    return res.status(400).json({ erro: "Falha ao criar livro. Verifique o Content-Type: application/json nos headers." });
-  }
-
   const novoLivro = livroService.criarLivro(req.body);
-  res.status(201).json(novoLivro); // 201 Created exigido na tabela de testes
+  return res.status(201).json(novoLivro);
 }
 
-// ADICIONADO: Função PUT para Atualização Completa
-function atualizarCompleto(req, res) {
-  const indice = Number(req.params.indice);
-  const livroAtualizado = livroService.atualizarCompletoLivro(indice, req.body);
+// PUT /livros/:id
+function atualizar(req, res) {
+  const id = req.params.id; // Alterado de req.params.indice para req.params.id
+  const livroAtualizado = livroService.atualizarCompletoLivro(id, req.body);
 
   if (!livroAtualizado) {
-    return res.status(404).json({ erro: "Livro não encontrado" });
+    return res.status(404).json({ mensagem: "Livro não encontrado para atualização." });
   }
 
-  res.status(200).json(livroAtualizado); // 200 OK conforme tabela de testes
+  return res.status(200).json(livroAtualizado);
 }
 
-// ADICIONADO: Função PATCH para Atualização Parcial
+// PATCH /livros/:id
 function atualizarParcial(req, res) {
-  const indice = Number(req.params.indice);
-  const livroAtualizado = livroService.atualizarParcialLivro(indice, req.body);
+  const id = req.params.id; // Alterado de req.params.indice para req.params.id
+  const livroAtualizado = livroService.atualizarParcialLivro(id, req.body);
 
   if (!livroAtualizado) {
-    return res.status(404).json({ erro: "Livro nao encontrado" });
+    return res.status(404).json({ mensagem: "Livro não encontrado para atualização." });
   }
 
-  res.status(200).json(livroAtualizado); // 200 OK conforme tabela de testes
+  return res.status(200).json(livroAtualizado);
 }
 
-// ADICIONADO: Função DELETE para remover o livro do array
+// DELETE /livros/:id
 function deletar(req, res) {
-  const indice = Number(req.params.indice);
-  const sucesso = livroService.deletarLivro(indice);
+  const id = req.params.id; // Alterado de req.params.indice para req.params.id
+  const apagado = livroService.deletarLivro(id);
 
-  if (!sucesso) {
-    return res.status(404).json({ erro: "Livro nao encontrado" });
+  if (!apagado) {
+    return res.status(404).json({ mensagem: "Livro não encontrado para remoção." });
   }
 
-  // Correção explícita do checklist do PDF: 204 No Content sem corpo de resposta
-  res.status(204).send(); 
+  return res.status(204).send();
 }
 
-// Exportando as funções para as rotas utilizarem
-module.exports = { 
-  listar, 
-  buscarPorIndice, 
+// Exportação das funções atualizadas
+module.exports = {
+  listar,
+  buscarPorId, // Alterado de buscarPorIndice para buscarPorId
   criar,
-  atualizarCompleto,
+  atualizar,
   atualizarParcial,
-  deletar
+  deletar,
 };
