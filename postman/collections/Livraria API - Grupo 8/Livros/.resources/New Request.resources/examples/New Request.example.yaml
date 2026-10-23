@@ -1,0 +1,77 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/livros"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    x-powered-by: Express
+    content-type: application/json; charset=utf-8
+    content-length: "803"
+    etag: W/"323-tswtMNdNGqi2c4fhu1IFD16lC7o"
+    date: Wed, 21 Oct 2026 17:54:58 GMT
+    connection: keep-alive
+    keep-alive: timeout=5
+  body:
+    type: json
+    content: |-
+      [
+        {
+          "id": 1,
+          "titulo": "Clean Code",
+          "autor": "Robert C. Martin",
+          "preco": 89.9,
+          "estoque": 12,
+          "categoria": "Programação"
+        },
+        {
+          "id": 2,
+          "titulo": "Eloquent JavaScript",
+          "autor": "Marijn Haverbeke",
+          "preco": 45,
+          "estoque": 20,
+          "categoria": "Programação"
+        },
+        {
+          "id": 3,
+          "titulo": "Eloquent JavaScript",
+          "autor": "Marijn Haverbeke",
+          "preco": 45,
+          "estoque": 20,
+          "categoria": "Programação"
+        },
+        {
+          "id": 4,
+          "titulo": "Clean Code",
+          "autor": "Robert C. Martin",
+          "preco": 89.9,
+          "estoque": 12,
+          "categoria": "Programação"
+        },
+        {
+          "id": 5,
+          "titulo": "Clean Code",
+          "autor": "Robert C. Martin",
+          "preco": 89.9,
+          "estoque": 12,
+          "categoria": "Programação"
+        },
+        {
+          "id": 6,
+          "titulo": "Eloquent JavaScript",
+          "autor": "Marijn Haverbeke",
+          "preco": 45,
+          "estoque": 20,
+          "categoria": "Programação"
+        },
+        {
+          "id": 7,
+          "titulo": "O Hobbit",
+          "autor": "J.R.R. Tolkien",
+          "preco": 109.9,
+          "estoque": 25,
+          "categoria": "Programação"
+        }
+      ]
+order: 1000

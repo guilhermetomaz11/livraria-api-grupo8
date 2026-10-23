@@ -1,3 +1,6 @@
+// src/models/Livro.js
+const PRECO_MINIMO = 0;
+
 class Livro {
   #preco;
   #estoque;
@@ -5,8 +8,8 @@ class Livro {
   constructor(titulo, autor, preco, estoque, categoria) {
     this.titulo = titulo;
     this.autor = autor;
-    this.#preco = preco;
-    this.#estoque = estoque;
+    this.preco = preco; // Utiliza o setter para validar na construção
+    this.estoque = estoque; // Utiliza o setter para validar na construção
     this.categoria = categoria;
   }
 
@@ -30,20 +33,18 @@ class Livro {
     return this.#estoque;
   }
 
-  // Set preco
+  // Set preco com throw para proteger o model
   set preco(novoPreco) {
-    if (novoPreco < 0) {
-      console.log("ERRO: preco nao pode ser negativo. Valor recusado.");
-      return;
+    if (novoPreco < PRECO_MINIMO) {
+      throw new Error("Preco nao pode ser negativo");
     }
     this.#preco = novoPreco;
   }
 
-  // Set estoque
+  // Set estoque com throw padronizado
   set estoque(novoEstoque) {
     if (novoEstoque < 0) {
-      console.log("ERRO: estoque nao pode ser negativo. Valor recusado.");
-      return;
+      throw new Error("Estoque nao pode ser negativo");
     }
     this.#estoque = novoEstoque;
   }
@@ -59,7 +60,7 @@ class Livro {
 
   toJSON() {
     return {
-      id: this.id, // ID na primeira linha para a API REST
+      id: this.id,
       titulo: this.titulo,
       autor: this.autor,
       preco: this.#preco,
@@ -69,5 +70,4 @@ class Livro {
   }
 }
 
-// Exportação simples da classe para coincidir com o require do livroService
 module.exports = Livro;

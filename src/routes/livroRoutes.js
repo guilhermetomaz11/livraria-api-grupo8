@@ -1,14 +1,17 @@
 // src/routes/livroRoutes.js
 const express = require("express");
-const livroController = require("../controllers/livroController");
 const router = express.Router();
+const livroController = require("../controllers/livroController");
+const validarId = require("../middlewares/validarId");
 
-// Rotas da API REST mapeadas por ID (:id)
+// Rotas sem ID
 router.get("/", livroController.listar);
-router.get("/:id", livroController.buscarPorId);          // Alterado de /:indice e buscarPorIndice para /:id e buscarPorId
 router.post("/", livroController.criar);
-router.put("/:id", livroController.atualizar);            // Alterado de /:indice e atualizarCompleto para /:id e atualizar
-router.patch("/:id", livroController.atualizarParcial);   // Alterado de /:indice para /:id
-router.delete("/:id", livroController.deletar);          // Alterado de /:indice para /:id
+
+// Rotas com parâmetro ID (passam pelo middleware validarId)
+router.get("/:id", validarId, livroController.buscarPorId);
+router.put("/:id", validarId, livroController.atualizar);
+router.patch("/:id", validarId, livroController.atualizarParcial);
+router.delete("/:id", validarId, livroController.deletar);
 
 module.exports = router;

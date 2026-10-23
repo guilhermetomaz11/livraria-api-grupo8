@@ -5,7 +5,26 @@ const Livro = require("../models/Livro");
 const livros = [];
 let proximoId = 1;
 
-// 2. Cadastro dos livros iniciais (gera os IDs 1 e 2 automaticamente)
+// 2. Função de validação dos dados do livro
+function validarLivro(dados, completo) {
+  if (!dados) return "Envie os dados do livro em JSON";
+
+  if (completo && !dados.titulo) return "O titulo e obrigatorio";
+  if (completo && !dados.autor) return "O autor e obrigatorio";
+  if (completo && dados.preco === undefined) return "O preco e obrigatorio";
+  if (completo && dados.estoque === undefined) return "O estoque e obrigatorio";
+
+  if (dados.preco !== undefined && (typeof dados.preco !== "number" || dados.preco < 0)) {
+    return "O preco deve ser um numero maior ou igual a zero";
+  }
+  if (dados.estoque !== undefined && (typeof dados.estoque !== "number" || dados.estoque < 0)) {
+    return "O estoque deve ser um numero maior ou igual a zero";
+  }
+
+  return null;
+}
+
+// 3. Cadastro dos livros iniciais (gera os IDs 1 e 2 automaticamente)
 criarLivro({
   titulo: "Clean Code",
   autor: "Robert C. Martin",
@@ -55,14 +74,14 @@ function listarLivros(filtros = {}) {
   );
 }
 
-// 3. Buscar pelo ID
+// Buscar pelo ID
 function buscarLivroPorId(id) {
   const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
   return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
-// 4. Criar livro atribuindo e incrementando o proximoId
+// Criar livro atribuindo e incrementando o proximoId
 function criarLivro(dados) {
   const novoLivro = new Livro(
     dados.titulo,
@@ -81,7 +100,7 @@ function criarLivro(dados) {
     : novoLivro;
 }
 
-// 5. Método PUT (Atualização completa por ID)
+// Método PUT (Atualização completa por ID)
 function atualizarLivro(id, dados) {
   const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
@@ -95,7 +114,7 @@ function atualizarLivro(id, dados) {
   return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
-// 6. Método PATCH (Atualização parcial por ID)
+// Método PATCH (Atualização parcial por ID)
 function atualizarParcialLivro(id, dados) {
   const livro = livros.find((l) => l.id === Number(id));
   if (!livro) return null;
@@ -109,7 +128,7 @@ function atualizarParcialLivro(id, dados) {
   return typeof livro.toJSON === "function" ? livro.toJSON() : livro;
 }
 
-// 7. Método DELETE (Remover livro por ID via findIndex)
+// Método DELETE (Remover livro por ID via findIndex)
 function deletarLivro(id) {
   const posicao = livros.findIndex((l) => l.id === Number(id));
   if (posicao === -1) return false;
@@ -119,6 +138,7 @@ function deletarLivro(id) {
 }
 
 module.exports = {
+  validarLivro,
   listarLivros,
   buscarLivroPorId,
   criarLivro,
