@@ -1,2 +1,6 @@
 name: New Environment
-values: []
+values:
+  - key: id_livro_atual
+    value: ''
+  - key: id_categoria_atual
+    value: ''

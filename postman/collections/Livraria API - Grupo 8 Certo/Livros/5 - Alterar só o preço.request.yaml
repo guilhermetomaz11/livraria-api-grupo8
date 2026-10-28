@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseUrl}}/livros/{{id_livro_atual}}"
+method: PATCH
+body:
+  type: json
+  content: '{ "preco": 35 }'
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });"
+    language: text/javascript
+order: 5000

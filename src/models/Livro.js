@@ -4,16 +4,27 @@ const PRECO_MINIMO = 0;
 class Livro {
   #preco;
   #estoque;
+  #id; // Adicionado ID privado para consistência
 
   constructor(titulo, autor, preco, estoque, categoria) {
     this.titulo = titulo;
     this.autor = autor;
-    this.preco = preco; // Utiliza o setter para validar na construção
-    this.estoque = estoque; // Utiliza o setter para validar na construção
+    this.preco = preco; 
+    this.estoque = estoque; 
     this.categoria = categoria;
+    this.#id = null; // Inicializa vazio até o service atribuir
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  set id(novoId) {
+    this.#id = Number(novoId);
   }
 
   descrever() {
+    console.log("Id: " + this.#id);
     console.log("Titulo: " + this.titulo);
     console.log("Autor: " + this.autor);
     console.log("Preco: " + this.#preco);
@@ -33,7 +44,6 @@ class Livro {
     return this.#estoque;
   }
 
-  // Set preco com throw para proteger o model
   set preco(novoPreco) {
     if (novoPreco < PRECO_MINIMO) {
       throw new Error("Preco nao pode ser negativo");
@@ -41,7 +51,6 @@ class Livro {
     this.#preco = novoPreco;
   }
 
-  // Set estoque com throw padronizado
   set estoque(novoEstoque) {
     if (novoEstoque < 0) {
       throw new Error("Estoque nao pode ser negativo");
@@ -60,7 +69,7 @@ class Livro {
 
   toJSON() {
     return {
-      id: this.id,
+      id: this.#id, // Retorna o ID numérico correto
       titulo: this.titulo,
       autor: this.autor,
       preco: this.#preco,

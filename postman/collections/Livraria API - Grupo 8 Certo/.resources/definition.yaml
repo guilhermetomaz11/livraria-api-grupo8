@@ -1,4 +1,4 @@
 $kind: collection
+description: ""
 variables:
   baseUrl: ""
-  livroId: ""

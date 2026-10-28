@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{baseUrl}}/categorias"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"nome\": \"Infantil\",\r
+
+    \    \"descricao\": \"Livros para criancas\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 201\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      // Captura a resposta da API\r
+
+      const resposta = pm.response.json();\r
+
+      \r
+
+      // Salva o ID do livro criado em uma variável (mude 'id' se na sua API o campo tiver outro nome, como '_id')\r
+
+      pm.environment.set(\"id_categoria_atual\", resposta.id);\r
+
+      \r\n"
+    language: text/javascript
+order: 3000

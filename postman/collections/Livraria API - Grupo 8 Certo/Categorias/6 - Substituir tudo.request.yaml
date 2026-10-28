@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/categorias/{{id_categoria_atual}}"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"nome\": \"InfantoJuvenil\",\r
+
+    \    \"descricao\": \"Criancas e adolescentes\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });"
+    language: text/javascript
+order: 6000

@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/livros"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"titulo\": \"O Hobbit\",\r
+
+    \    \"autor\": \"J.R.R Tolkien\",\r
+
+    \    \"preco\": 39.9,\r
+
+    \    \"estoque\": 8\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 201\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });"
+    language: text/javascript
+order: 6000

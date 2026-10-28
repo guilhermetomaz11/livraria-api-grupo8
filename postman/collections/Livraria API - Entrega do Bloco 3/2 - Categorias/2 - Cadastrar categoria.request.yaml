@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/categorias"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nome": "Categoria Teste",
+      "descricao": "Entrega"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.collectionVariables.set("categoriaId", pm.response.json().id);
+    language: text/javascript
+order: 2000

@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/categorias"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"nome\": \"Infantil\",\r
+
+    \    \"descricao\": \"Livros para criancas\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 201\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r\n"
+    language: text/javascript
+order: 4000

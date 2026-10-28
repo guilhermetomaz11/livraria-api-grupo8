@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseUrl}}/categorias/1"
+method: PATCH
+body:
+  type: json
+  content: "{\r\n    \"nome\": \"x\"\r\n}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 400\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });\r\n"
+    language: text/javascript
+order: 3000

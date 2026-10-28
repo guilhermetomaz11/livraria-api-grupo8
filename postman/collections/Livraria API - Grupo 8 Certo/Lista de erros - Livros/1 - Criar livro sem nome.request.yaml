@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseUrl}}/livros"
+method: POST
+body:
+  type: json
+  content: "{\r\n    \"autor\": \"Ninguem\"\r\n}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 400\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });\r\n"
+    language: text/javascript
+order: 1000
