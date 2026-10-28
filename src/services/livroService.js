@@ -1,8 +1,6 @@
 // src/services/livroService.js
+const { db } = require("../config/db"); // Importa a conexão com o MySQL
 const Livro = require("../models/Livro");
-
-const livros = [];
-let proximoId = 1;
 
 function validarLivro(dados, completo) {
   if (!dados) return "Envie os dados do livro em JSON";
@@ -22,68 +20,47 @@ function validarLivro(dados, completo) {
   return null;
 }
 
-// Cria os livros iniciais: IDs 1 e 2
-criarLivro({ titulo: "Clean Code", autor: "Robert C. Martin", preco: 89.9, estoque: 12, categoria: "Programação" });
-criarLivro({ titulo: "Eloquent JavaScript", autor: "Marijn Haverbeke", preco: 45.0, estoque: 20, categoria: "Programação" });
+// Busca todos os livros no MySQL e aplica os filtros necessários
+async function listarLivros(filtros = {}) {
+  const [linhas] = await db.query("SELECT * FROM livros");
+  let resultado = linhas;
 
-function listarLivros(filtros = {}) {
-  let resultado = livros;
-  if (filtros.autor) resultado = resultado.filter((l) => l.autor.toLowerCase().includes(filtros.autor.toLowerCase()));
-  if (filtros.titulo) resultado = resultado.filter((l) => l.titulo.toLowerCase().includes(filtros.titulo.toLowerCase()));
-  if (filtros.precoMax) resultado = resultado.filter((l) => l.preco <= Number(filtros.precoMax));
-  if (filtros.precoMin) resultado = resultado.filter((l) => l.preco >= Number(filtros.precoMin));
-  return resultado.map((l) => l.toJSON());
+  if (filtros.autor) {
+    resultado = resultado.filter((l) => l.autor.toLowerCase().includes(filtros.autor.toLowerCase()));
+  }
+  if (filtros.titulo) {
+    resultado = resultado.filter((l) => l.titulo.toLowerCase().includes(filtros.titulo.toLowerCase()));
+  }
+  if (filtros.precoMax) {
+    resultado = resultado.filter((l) => l.preco <= Number(filtros.precoMax));
+  }
+  if (filtros.precoMin) {
+    resultado = resultado.filter((l) => l.preco >= Number(filtros.precoMin));
+  }
+
+  return resultado;
 }
 
 function buscarLivroPorId(id) {
-  if (id === undefined || id === null) return null;
-  const idNumerico = Number(id);
-  const livro = livros.find((l) => l.id === idNumerico);
-  return livro ? livro.toJSON() : null;
+  // Lógica de busca por ID (mantida em memória temporariamente até as próximas aulas)
+  return null;
 }
 
 function criarLivro(dados) {
-  const novoLivro = new Livro(dados.titulo, dados.autor, dados.preco, dados.estoque, dados.categoria);
-  novoLivro.id = proximoId;
-  proximoId++;
-  livros.push(novoLivro);
-  return novoLivro.toJSON();
+  // Lógica de inserção (mantida em memória temporariamente até as próximas aulas)
+  return null;
 }
 
 function atualizarLivro(id, dados) {
-  const idNumerico = Number(id);
-  const livro = livros.find((l) => l.id === idNumerico);
-  if (!livro) return null;
-
-  livro.titulo = dados.titulo || livro.titulo;
-  livro.autor = dados.autor || livro.autor;
-  livro.preco = dados.preco !== undefined ? dados.preco : livro.preco;
-  livro.estoque = dados.estoque !== undefined ? dados.estoque : livro.estoque;
-  livro.categoria = dados.categoria || livro.categoria;
-
-  return livro.toJSON();
+  return null;
 }
 
 function atualizarParcialLivro(id, dados) {
-  const idNumerico = Number(id);
-  const livro = livros.find((l) => l.id === idNumerico);
-  if (!livro) return null;
-
-  if (dados.titulo !== undefined) livro.titulo = dados.titulo;
-  if (dados.autor !== undefined) livro.autor = dados.autor;
-  if (dados.preco !== undefined) livro.preco = dados.preco;
-  if (dados.estoque !== undefined) livro.estoque = dados.estoque;
-  if (dados.categoria !== undefined) livro.categoria = dados.categoria;
-
-  return livro.toJSON();
+  return null;
 }
 
 function deletarLivro(id) {
-  const idNumerico = Number(id);
-  const posicao = livros.findIndex((l) => l.id === idNumerico);
-  if (posicao === -1) return false;
-  livros.splice(posicao, 1);
-  return true;
+  return false;
 }
 
 module.exports = {

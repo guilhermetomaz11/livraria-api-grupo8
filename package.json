@@ -2,10 +2,9 @@
   "devDependencies": {
     "nodemon": "^3.1.14"
   },
-   "scripts": {
+  "scripts": {
     "dev": "nodemon src/index.js"
   },
-
   "name": "livraria-api-grupo8",
   "version": "1.0.0",
   "description": "Projeto da UC de Programação Back-End — Curso Técnico em Desenvolvimento de Sistemas\r Escola SENAI \"Santo Paschoal Crepaldi\" — Turma 1-2026-SESI_DEV_OC_1",
@@ -13,11 +12,12 @@
   "directories": {
     "doc": "docs"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^18.0.9",
+    "express": "^5.2.1",
+    "mysql2": "^3.24.6"
   }
 }

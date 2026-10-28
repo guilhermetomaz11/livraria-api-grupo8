@@ -1,9 +1,12 @@
 // src/index.js
+require("dotenv").config(); // 1. Garante a leitura do arquivo .env
+
 const express = require("express");
 const routes = require("./routes");
 const logger = require("./middlewares/logger");
 const rotaNaoEncontrada = require("./middlewares/rotaNaoEncontrada");
 const tratarErros = require("./middlewares/tratarErros");
+const { testarConexao } = require("./config/db"); // Importa a função de conexão do MySQL
 
 const app = express();
 const PORTA = 3000;
@@ -31,4 +34,5 @@ app.use(tratarErros);
 // 5. Inicialização do servidor
 app.listen(PORTA, () => {
   console.log("Servidor rodando em http://localhost:" + PORTA);
+  testarConexao(); // Testa a conexão com o banco assim que o servidor subir
 });

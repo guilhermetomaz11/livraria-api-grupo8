@@ -1,8 +1,9 @@
 // src/controllers/livroController.js
 const livroService = require("../services/livroService");
 
-function listar(req, res) {
-  const livros = livroService.listarLivros(req.query);
+// A função listar agora usa async e await para esperar os dados do MySQL
+async function listar(req, res) {
+  const livros = await livroService.listarLivros(req.query);
   return res.status(200).json(livros);
 }
 
