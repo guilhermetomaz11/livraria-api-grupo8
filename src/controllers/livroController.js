@@ -7,9 +7,10 @@ async function listar(req, res) {
   return res.status(200).json(livros);
 }
 
-function buscarPorId(req, res) {
+// Alterado para async/await para aguardar a busca no banco de dados (Aula 28)
+async function buscarPorId(req, res) {
   const id = req.params.id;
-  const livro = livroService.buscarLivroPorId(id);
+  const livro = await livroService.buscarLivroPorId(id);
 
   if (!livro) {
     return res.status(404).json({ erro: "Livro nao encontrado" });

@@ -41,9 +41,10 @@ async function listarLivros(filtros = {}) {
   return resultado;
 }
 
-function buscarLivroPorId(id) {
-  // Lógica de busca por ID (mantida em memória temporariamente até as próximas aulas)
-  return null;
+// Busca um único livro direto do banco de dados (Aula 28)
+async function buscarLivroPorId(id) {
+  const [linhas] = await db.query("SELECT * FROM livros WHERE id = ?", [id]);
+  return linhas[0];
 }
 
 function criarLivro(dados) {
@@ -52,10 +53,14 @@ function criarLivro(dados) {
 }
 
 function atualizarLivro(id, dados) {
+  // Ajuste temporário da seção 3.3 enquanto PUT não vai para o banco
+  const livro = livros.find((livro) => livro.id === Number(id));
   return null;
 }
 
 function atualizarParcialLivro(id, dados) {
+  // Ajuste temporário da seção 3.3 enquanto PATCH não vai para o banco
+  const livro = livros.find((livro) => livro.id === Number(id));
   return null;
 }
 
