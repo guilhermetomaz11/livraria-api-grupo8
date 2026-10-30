@@ -1,13 +1,13 @@
 // src/controllers/livroController.js
 const livroService = require("../services/livroService");
 
-// A função listar agora usa async e await para esperar os dados do MySQL
+// GET /livros - Lista todos os livros
 async function listar(req, res) {
   const livros = await livroService.listarLivros(req.query);
   return res.status(200).json(livros);
 }
 
-// Alterado para async/await para aguardar a busca no banco de dados (Aula 28)
+// GET /livros/:id - Busca um livro por id (Aula 28)
 async function buscarPorId(req, res) {
   const id = req.params.id;
   const livro = await livroService.buscarLivroPorId(id);
@@ -18,51 +18,53 @@ async function buscarPorId(req, res) {
   return res.status(200).json(livro);
 }
 
-function criar(req, res) {
-  const erro = livroService.validarLivro(req.body, true);
-  if (erro) {
-    return res.status(400).json({ erro: erro });
+// POST /livros - Seção 3.3: Cadastra um novo livro no banco
+async function criar(req, res) {
+  const erroValidacao = livroService.validarLivro(req.body, true);
+  if (erroValidacao) {
+    return res.status(400).json({ erro: erroValidacao });
   }
 
-  const novoLivro = livroService.criarLivro(req.body);
-  return res.status(201).json(novoLivro);
+  const livroCriado = await livroService.criarLivro(req.body);
+  return res.status(201).json(livroCriado);
 }
 
-function atualizar(req, res) {
-  const erro = livroService.validarLivro(req.body, false);
-  if (erro) {
-    return res.status(400).json({ erro: erro });
+// PUT /livros/:id - Seção 4.3: Atualização completa do livro no banco
+async function atualizar(req, res) {
+  const id = req.params.id;
+  const erroValidacao = livroService.validarLivro(req.body, true);
+  if (erroValidacao) {
+    return res.status(400).json({ erro: erroValidacao });
   }
 
-  const id = req.params.id;
-  const livroAtualizado = livroService.atualizarLivro(id, req.body);
-
+  const livroAtualizado = await livroService.atualizarLivro(id, req.body);
   if (!livroAtualizado) {
     return res.status(404).json({ erro: "Livro nao encontrado" });
   }
   return res.status(200).json(livroAtualizado);
 }
 
-function atualizarParcial(req, res) {
-  const erro = livroService.validarLivro(req.body, false);
-  if (erro) {
-    return res.status(400).json({ erro: erro });
+// PATCH /livros/:id - Seção 4.3: Atualização parcial do livro no banco
+async function atualizarParcial(req, res) {
+  const id = req.params.id;
+  const erroValidacao = livroService.validarLivro(req.body, false);
+  if (erroValidacao) {
+    return res.status(400).json({ erro: erroValidacao });
   }
 
-  const id = req.params.id;
-  const livroAtualizado = livroService.atualizarParcialLivro(id, req.body);
-
+  const livroAtualizado = await livroService.atualizarParcialLivro(id, req.body);
   if (!livroAtualizado) {
     return res.status(404).json({ erro: "Livro nao encontrado" });
   }
   return res.status(200).json(livroAtualizado);
 }
 
-function deletar(req, res) {
+// DELETE /livros/:id - Seção 5.2: Apaga um livro do banco
+async function deletar(req, res) {
   const id = req.params.id;
-  const apagado = livroService.deletarLivro(id);
+  const removido = await livroService.deletarLivro(id);
 
-  if (!apagado) {
+  if (!removido) {
     return res.status(404).json({ erro: "Livro nao encontrado" });
   }
   return res.status(204).send();

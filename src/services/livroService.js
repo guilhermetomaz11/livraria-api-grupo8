@@ -1,6 +1,5 @@
 // src/services/livroService.js
 const { db } = require("../config/db"); // Importa a conexão com o MySQL
-const Livro = require("../models/Livro");
 
 function validarLivro(dados, completo) {
   if (!dados) return "Envie os dados do livro em JSON";
@@ -20,7 +19,7 @@ function validarLivro(dados, completo) {
   return null;
 }
 
-// Busca todos os livros no MySQL e aplica os filtros necessários
+// 1. GET: Lista todos os livros do banco
 async function listarLivros(filtros = {}) {
   const [linhas] = await db.query("SELECT * FROM livros");
   let resultado = linhas;
@@ -41,29 +40,48 @@ async function listarLivros(filtros = {}) {
   return resultado;
 }
 
-// Busca um único livro direto do banco de dados (Aula 28)
+// 2. GET POR ID: Busca um único livro por id
 async function buscarLivroPorId(id) {
   const [linhas] = await db.query("SELECT * FROM livros WHERE id = ?", [id]);
   return linhas[0];
 }
 
-function criarLivro(dados) {
-  // Lógica de inserção (mantida temporariamente até as próximas aulas)
-  return null;
+// 3. POST: Cadastra um novo livro no MySQL (Seção 3.1)
+async function criarLivro(dados) {
+  const [resultado] = await db.query(
+    "INSERT INTO livros (titulo, autor, preco, estoque) VALUES (?, ?, ?, ?)",
+    [dados.titulo, dados.autor, dados.preco, dados.estoque]
+  );
+  return await buscarLivroPorId(resultado.insertId);
 }
 
-function atualizarLivro(id, dados) {
-  // Ajustado temporariamente para não causar erro de referência (ReferenceError)
-  return null;
+// 4. PUT: Altera um livro completo no MySQL (Seção 4.1)
+async function atualizarLivro(id, dados) {
+  const [resultado] = await db.query(
+    "UPDATE livros SET titulo = ?, autor = ?, preco = ?, estoque = ? WHERE id = ?",
+    [dados.titulo, dados.autor, dados.preco, dados.estoque, id]
+  );
+  if (resultado.affectedRows === 0) return null;
+  return await buscarLivroPorId(id);
 }
 
-function atualizarParcialLivro(id, dados) {
-  // Ajustado temporariamente para não causar erro de referência (ReferenceError)
-  return null;
+// 5. PATCH: Atualização parcial (Seção 4.2)
+async function atualizarParcialLivro(id, dados) {
+  const livro = await buscarLivroPorId(id);
+  if (!livro) return null;
+
+  if (dados.titulo !== undefined) livro.titulo = dados.titulo;
+  if (dados.autor !== undefined) livro.autor = dados.autor;
+  if (dados.preco !== undefined) livro.preco = dados.preco;
+  if (dados.estoque !== undefined) livro.estoque = dados.estoque;
+
+  return await atualizarLivro(id, livro);
 }
 
-function deletarLivro(id) {
-  return false;
+// 6. DELETE: Apaga um livro do MySQL (Seção 5.1)
+async function deletarLivro(id) {
+  const [resultado] = await db.query("DELETE FROM livros WHERE id = ?", [id]);
+  return resultado.affectedRows > 0;
 }
 
 module.exports = {
