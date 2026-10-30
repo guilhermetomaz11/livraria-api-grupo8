@@ -1,5 +1,5 @@
 // src/services/livroService.js
-const db = require("../config/db"); // Importa a conexão diretamente (sem chaves)
+const { db } = require("../config/db"); // Importa a conexão diretamente (sem chaves)
 
 function validarLivro(dados, completo) {
   if (!dados) return "Envie os dados do livro em JSON";

@@ -1,7 +1,8 @@
+// src/middlewares/validarId.js
 function validarId(req, res, next) {
-  if (isNaN(Number(req.params.id))) {
-    res.status(400).json({ erro: "O id deve ser um numero" });
-    return;
+  const id = Number(req.params.id);
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({ erro: "O id deve ser um numero positivo" });
   }
   next();
 }
