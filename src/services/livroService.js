@@ -48,19 +48,17 @@ async function buscarLivroPorId(id) {
 }
 
 function criarLivro(dados) {
-  // Lógica de inserção (mantida em memória temporariamente até as próximas aulas)
+  // Lógica de inserção (mantida temporariamente até as próximas aulas)
   return null;
 }
 
 function atualizarLivro(id, dados) {
-  // Ajuste temporário da seção 3.3 enquanto PUT não vai para o banco
-  const livro = livros.find((livro) => livro.id === Number(id));
+  // Ajustado temporariamente para não causar erro de referência (ReferenceError)
   return null;
 }
 
 function atualizarParcialLivro(id, dados) {
-  // Ajuste temporário da seção 3.3 enquanto PATCH não vai para o banco
-  const livro = livros.find((livro) => livro.id === Number(id));
+  // Ajustado temporariamente para não causar erro de referência (ReferenceError)
   return null;
 }
 
