@@ -1,5 +1,5 @@
 // src/services/livroService.js
-const { db } = require("../config/db"); // Importa a conexão com o MySQL
+const db = require("../config/db"); // Importa a conexão diretamente (sem chaves)
 
 function validarLivro(dados, completo) {
   if (!dados) return "Envie os dados do livro em JSON";
@@ -43,7 +43,7 @@ async function listarLivros(filtros = {}) {
 // 2. GET POR ID: Busca um único livro por id
 async function buscarLivroPorId(id) {
   const [linhas] = await db.query("SELECT * FROM livros WHERE id = ?", [id]);
-  return linhas[0];
+  return linhas[0] || null; // Retorna o livro ou null se não existir
 }
 
 // 3. POST: Cadastra um novo livro no MySQL (Seção 3.1)
@@ -68,7 +68,7 @@ async function atualizarLivro(id, dados) {
 // 5. PATCH: Atualização parcial (Seção 4.2)
 async function atualizarParcialLivro(id, dados) {
   const livro = await buscarLivroPorId(id);
-  if (!livro) return null;
+  if (!livro) return null; // Garante que retorna null se o ID não existir (evita erro 500)
 
   if (dados.titulo !== undefined) livro.titulo = dados.titulo;
   if (dados.autor !== undefined) livro.autor = dados.autor;

@@ -1,5 +1,5 @@
 $kind: http-request
-url: "{{baseUrl}}/livros"
+url: "{{baseUrl}}/livros/1"
 method: GET
 scripts:
   - type: afterResponse
