@@ -17,3 +17,4 @@ INSERT INTO livros (titulo, autor, preco, estoque) VALUES
 ('O Senhor dos Anéis', 'J.R.R. Tolkien', 59.90, 15);
 
 SELECT * FROM livros;
+SELECT * FROM livros WHERE id = 3;
