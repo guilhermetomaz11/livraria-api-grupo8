@@ -1,0 +1,25 @@
+$kind: http-request
+url: http://localhost:3000/livros
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"A Saga Interminavel do Livro Que Nunca Acabava de Ter Titulo A Saga Interminavel do Livro Que Nunca Acabava de Ter Titulo A Saga Interminavel do Livro Que Nunca Acabava de Ter Titulo\",\r
+
+    \  \"autor\": \"J.R.R. Tolkien\",\r
+
+    \  \"preco\": 39.9,\r
+
+    \  \"estoque\": 8\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 400\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });"
+    language: text/javascript
+order: 1000

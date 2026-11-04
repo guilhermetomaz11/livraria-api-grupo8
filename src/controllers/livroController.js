@@ -2,17 +2,17 @@
 const livroService = require("../services/livroService");
 
 // GET /livros - Lista todos os livros
-async function listar(req, res) {
+async function listar(req, res, next) {
   try {
     const livros = await livroService.listarLivros(req.query);
     return res.status(200).json(livros);
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao buscar livros no banco de dados" });
+    next(erro);
   }
 }
 
 // GET /livros/:id - Busca um livro por id
-async function buscarPorId(req, res) {
+async function buscarPorId(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const livro = await livroService.buscarLivroPorId(id);
@@ -22,12 +22,12 @@ async function buscarPorId(req, res) {
     }
     return res.status(200).json(livro);
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao buscar livro no banco de dados" });
+    next(erro);
   }
 }
 
-// POST /livros - Cadastra um novo livro no banco (Seção 3.3)
-async function criar(req, res) {
+// POST /livros - Cadastra um novo livro no banco
+async function criar(req, res, next) {
   try {
     const erroValidacao = livroService.validarLivro(req.body, true);
     if (erroValidacao) {
@@ -37,12 +37,12 @@ async function criar(req, res) {
     const livroCriado = await livroService.criarLivro(req.body);
     return res.status(201).json(livroCriado);
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao cadastrar livro no banco de dados" });
+    next(erro);
   }
 }
 
-// PUT /livros/:id - Atualização completa do livro no banco (Seção 4.3)
-async function atualizar(req, res) {
+// PUT /livros/:id - Atualização completa do livro no banco
+async function atualizar(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const erroValidacao = livroService.validarLivro(req.body, true);
@@ -56,12 +56,12 @@ async function atualizar(req, res) {
     }
     return res.status(200).json(livroAtualizado);
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao atualizar livro no banco de dados" });
+    next(erro);
   }
 }
 
-// PATCH /livros/:id - Atualização parcial do livro no banco (Seção 4.3)
-async function atualizarParcial(req, res) {
+// PATCH /livros/:id - Atualização parcial do livro no banco
+async function atualizarParcial(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const erroValidacao = livroService.validarLivro(req.body, false);
@@ -75,12 +75,12 @@ async function atualizarParcial(req, res) {
     }
     return res.status(200).json(livroAtualizado);
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao atualizar livro no banco de dados" });
+    next(erro);
   }
 }
 
-// DELETE /livros/:id - Apaga um livro do banco (Seção 5.2)
-async function deletar(req, res) {
+// DELETE /livros/:id - Apaga um livro do banco
+async function deletar(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const removido = await livroService.deletarLivro(id);
@@ -90,7 +90,7 @@ async function deletar(req, res) {
     }
     return res.status(204).send();
   } catch (erro) {
-    return res.status(500).json({ erro: "Erro ao deletar livro no banco de dados" });
+    next(erro);
   }
 }
 

@@ -1,0 +1,26 @@
+$kind: http-request
+description: ""
+url: http://localhost:3000/livros
+method: POST
+body:
+  type: json
+  content: "{ \r
+
+    \  \"titulo\": \"O Livro Mais Caro\", \r
+
+    \  \"autor\": \"Ninguem\", \r
+
+    \  \"preco\": 123456789012, \r
+
+    \  \"estoque\": 1 \r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 400\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });"
+    language: text/javascript
+order: 2000

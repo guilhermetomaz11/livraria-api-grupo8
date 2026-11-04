@@ -1,12 +1,9 @@
 workspace:
   id: 93bbf0e3-30e3-4953-8450-27ef4de63559
-
-# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
-
 cloudResources:
   collections:
     ../postman/collections/Livraria API - Grupo 8 Certo: 59118794-8e65cf92-7668-4d9b-9262-13918220926c
-    ../postman/collections/Livraria API - Entrega do Bloco 3: d771c8e4-cf21-4094-bfa4-f69ecdd05b6f
+    ../postman/collections/Livraria API - Entrega do Bloco 3: 59118794-325c2919-ad39-4964-ae38-f7173f4eab69
   environments:
     ../postman/environments/New Environment.environment.yaml: 59118794-161d3ca5-b206-4f5e-bbeb-78b2114a3d67
   globals:
