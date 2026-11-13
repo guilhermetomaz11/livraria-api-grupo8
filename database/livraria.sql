@@ -1,9 +1,7 @@
--- Reset total da base de dados
 DROP DATABASE IF EXISTS livraria;
 CREATE DATABASE livraria;
 USE livraria;
 
--- Criação da tabela
 CREATE TABLE livros (
   id INT AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(150) NOT NULL,
@@ -12,10 +10,11 @@ CREATE TABLE livros (
   estoque INT NOT NULL
 );
 
--- Carga inicial obrigatória (Apenas os 3 livros padrão)
 INSERT INTO livros (titulo, autor, preco, estoque) VALUES
 ('Clean Code', 'Robert C. Martin', 89.90, 12),
 ('Eloquent JavaScript', 'Marijn Haverbeke', 45.00, 20),
-('O Hobbit', 'J.R.R. Tolkien', 39.90, 8);
+('O Hobbit', 'J.R.R. Tolkien', 39.90, 8),
+('O Senhor dos Anéis', 'J.R.R. Tolkien', 59.90, 15),
+('A Revolução dos Bichos', 'George Orwell', 34.90, 10); 
 
 SELECT * FROM livros;
