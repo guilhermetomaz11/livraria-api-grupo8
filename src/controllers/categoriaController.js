@@ -1,14 +1,13 @@
 // src/controllers/categoriaController.js
 const categoriaService = require("../services/categoriaService");
 
-function listar(req, res) {
-  const categorias = categoriaService.listarCategorias(req.query);
+async function listar(req, res) {
+  const categorias = await categoriaService.listarCategorias(req.query);
   return res.status(200).json(categorias);
 }
 
-function buscarPorId(req, res) {
-  const id = req.params.id;
-  const categoria = categoriaService.buscarCategoriaPorId(id);
+async function buscarPorId(req, res) {
+  const categoria = await categoriaService.buscarCategoriaPorId(req.params.id);
 
   if (!categoria) {
     return res.status(404).json({ erro: "Categoria nao encontrada" });
@@ -17,26 +16,26 @@ function buscarPorId(req, res) {
   return res.status(200).json(categoria);
 }
 
-function criar(req, res) {
-  // Validação completa (nome é obrigatório)
+async function criar(req, res) {
   const erro = categoriaService.validarCategoria(req.body, true);
   if (erro) {
-    return res.status(400).json({ erro: erro });
+    return res.status(400).json({ erro });
   }
 
-  const novaCategoria = categoriaService.criarCategoria(req.body);
+  const novaCategoria = await categoriaService.criarCategoria(req.body);
   return res.status(201).json(novaCategoria);
 }
 
-function atualizar(req, res) {
-  // Validação completa no PUT (nome é obrigatório)
+async function atualizar(req, res) {
   const erro = categoriaService.validarCategoria(req.body, true);
   if (erro) {
-    return res.status(400).json({ erro: erro });
+    return res.status(400).json({ erro });
   }
 
-  const id = req.params.id;
-  const categoriaAtualizada = categoriaService.atualizarCategoria(id, req.body);
+  const categoriaAtualizada = await categoriaService.atualizarCategoria(
+    req.params.id,
+    req.body
+  );
 
   if (!categoriaAtualizada) {
     return res.status(404).json({ erro: "Categoria nao encontrada" });
@@ -45,15 +44,16 @@ function atualizar(req, res) {
   return res.status(200).json(categoriaAtualizada);
 }
 
-function atualizarParcial(req, res) {
-  // Validação parcial no PATCH (somente valida se o nome for enviado)
+async function atualizarParcial(req, res) {
   const erro = categoriaService.validarCategoria(req.body, false);
   if (erro) {
-    return res.status(400).json({ erro: erro });
+    return res.status(400).json({ erro });
   }
 
-  const id = req.params.id;
-  const categoriaAtualizada = categoriaService.atualizarParcialCategoria(id, req.body);
+  const categoriaAtualizada = await categoriaService.atualizarParcialCategoria(
+    req.params.id,
+    req.body
+  );
 
   if (!categoriaAtualizada) {
     return res.status(404).json({ erro: "Categoria nao encontrada" });
@@ -62,11 +62,10 @@ function atualizarParcial(req, res) {
   return res.status(200).json(categoriaAtualizada);
 }
 
-function deletar(req, res) {
-  const id = req.params.id;
-  const apagado = categoriaService.deletarCategoria(id);
+async function deletar(req, res) {
+  const deletou = await categoriaService.deletarCategoria(req.params.id);
 
-  if (!apagado) {
+  if (!deletou) {
     return res.status(404).json({ erro: "Categoria nao encontrada" });
   }
 
