@@ -1,7 +1,7 @@
+-- Reset total da base de dados
 DROP DATABASE IF EXISTS livraria;
 CREATE DATABASE livraria;
 USE livraria;
-
 
 -- Criação da tabela categorias (deve vir antes de livros)
 CREATE TABLE categorias (
