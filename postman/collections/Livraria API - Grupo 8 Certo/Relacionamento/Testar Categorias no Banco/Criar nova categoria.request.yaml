@@ -5,9 +5,29 @@ body:
   type: json
   content: "{\r
 
-    \  \"nome\": \"Infantil\",\r
+    \  \"nome\": \"Biografias\",\r
 
-    \  \"descricao\": \"Livros para criancas\"\r
+    \  \"descricao\": \"Livros sobre a vida de personalidades\"\r
 
     }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 201\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      const jsonData = pm.response.json();\r
+
+      if (jsonData && jsonData.id) {\r
+
+      \    pm.environment.set(\"categoriaId\", jsonData.id);\r
+
+      \    pm.environment.set(\"categoria_id\", jsonData.id);\r
+
+      }"
+    language: text/javascript
 order: 3000

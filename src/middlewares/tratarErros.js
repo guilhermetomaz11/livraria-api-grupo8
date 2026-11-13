@@ -38,7 +38,13 @@ function tratarErros(err, req, res, next) {
     return;
   }
 
-  // 7. Se não cair em nenhum if acima, mantém o 500 genérico
+  // 7. Registro duplicado em coluna UNIQUE (ex: nome de categoria já existente)
+  if (err.code === "ER_DUP_ENTRY") {
+    res.status(409).json({ erro: "Ja existe um registro com esse nome" });
+    return;
+  }
+
+  // 8. Se não cair em nenhum if acima, mantém o 500 genérico
   res.status(500).json({ erro: "Erro interno no servidor" });
 }
 

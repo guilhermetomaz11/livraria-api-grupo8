@@ -4,3 +4,7 @@ values:
     value: ''
   - key: id_categoria_atual
     value: ''
+  - key: categoriaId
+    value: ''
+  - key: categoria_id
+    value: ''
