@@ -2,8 +2,7 @@ DROP DATABASE IF EXISTS livraria;
 CREATE DATABASE livraria;
 USE livraria;
 
-<<<<<<< HEAD
-=======
+
 -- Criação da tabela categorias (deve vir antes de livros)
 CREATE TABLE categorias (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,7 +11,6 @@ CREATE TABLE categorias (
 );
 
 -- Criação da tabela livros com chave estrangeira
->>>>>>> e54e1ae851734f9db68530d905ce1c7c7a5a27b8
 CREATE TABLE livros (
   id INT AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(150) NOT NULL,
