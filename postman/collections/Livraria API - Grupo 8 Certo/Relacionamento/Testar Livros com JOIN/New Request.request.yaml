@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/livros
+method: GET
+order: 1000

@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:3000/categorias
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \  \"descricao\": \"De 6 a 10 anos\"\r
+
+    }"
+order: 1000

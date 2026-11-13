@@ -1,0 +1,12 @@
+$kind: http-request
+url: http://localhost:3000/categorias/1
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 409\", function () {\r
+
+      \  pm.response.to.have.status(409);\r
+
+      });"
+    language: text/javascript
+order: 3000

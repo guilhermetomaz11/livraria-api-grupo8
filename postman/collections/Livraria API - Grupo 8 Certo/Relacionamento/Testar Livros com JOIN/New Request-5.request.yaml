@@ -1,0 +1,20 @@
+$kind: http-request
+name: New Request
+url: http://localhost:3000/livros
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Dom Casmurro\",\r
+
+    \  \"autor\": \"Machado de Assis\",\r
+
+    \  \"preco\": 30.00,\r
+
+    \  \"estoque\": 5,\r
+
+    \  \"categoria_id\": \"abc\"\r
+
+    }"
+order: 6000

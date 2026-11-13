@@ -1,0 +1,12 @@
+$kind: http-request
+name: New Request
+url: http://localhost:3000/categorias/4
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"descricao\": \"De 6 a 10 anos\"\r
+
+    }"
+order: 4000
