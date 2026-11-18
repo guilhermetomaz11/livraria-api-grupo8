@@ -55,8 +55,8 @@ Foi implementado um middleware centralizado (`src/middlewares/tratarErros.js`) p
 A coleção do Postman foi atualizada para incluir a pasta **Erros do banco**, cobrindo cenários de validação extrema de dados (`POST /livros` com título e preço gigantes) e validação sintática do corpo das requisições.
 
 ## Diagrama de Classes
-![Diagrama de Classes](https://github.com/lucasmlima-dev/livraria-api-grupo8/blob/main/docs/diagrama-classes-v2.png?raw=true)  
-- Link para visualização: [Diagrama de Classes v2](https://github.com/lucasmlima-dev/livraria-api-grupo8/blob/main/docs/diagrama-classes-v2.png)
+![Diagrama de Classes](https://github.com/guilhermetomaz11/livraria-api-grupo8/blob/main/docs/diagrama-classes-v2.png?raw=true)  
+- Link para visualização: [Diagrama de Classes v2](https://github.com/guilhermetomaz11/livraria-api-grupo8/blob/main/docs/diagrama-classes-v2.png)
 
 ## Estrutura do Projeto (MVC)
 ```text
