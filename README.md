@@ -1,7 +1,7 @@
 # API de Gestão da Livraria — Grupo 8
 
 Projeto da UC de Programação Back-End — Curso Técnico em Desenvolvimento de Sistemas  
-Escola SENAI "Santo Paschoal Crepaldi" — Turma 1-2026-SESI_DEV_OC_1
+Escola SENAI "Osvaldo Cruz" — Turma 1-2026-SESI_DEV_OC_1
 
 ## Integrantes
 - Guilherme Tomaz Camara 1 — @guilhermetomaz11
