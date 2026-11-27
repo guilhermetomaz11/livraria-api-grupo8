@@ -1,0 +1,13 @@
+$kind: http-request
+name: Deletar categoria com tarefas vs. categoria vazia
+url: http://localhost:3000/categorias/{{categoria_id}}
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 204 No Content\", function () {\r
+
+      \    pm.response.to.have.status(204);\r
+
+      });"
+    language: text/javascript
+order: 11000

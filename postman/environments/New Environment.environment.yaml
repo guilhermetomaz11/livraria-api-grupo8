@@ -8,3 +8,7 @@ values:
     value: ''
   - key: categoria_id
     value: ''
+  - key: tarefa_id
+    value: ''
+  - key: tarefaId
+    value: ''

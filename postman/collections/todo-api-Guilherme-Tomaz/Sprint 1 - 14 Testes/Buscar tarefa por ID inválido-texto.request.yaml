@@ -1,0 +1,13 @@
+$kind: http-request
+name: Buscar tarefa por ID inválido/texto
+url: http://localhost:3000/tarefas/abc
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 400 Bad Request\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });"
+    language: text/javascript
+order: 5000

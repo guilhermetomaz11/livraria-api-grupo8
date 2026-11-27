@@ -1,0 +1,19 @@
+$kind: http-request
+url: http://localhost:3000/categorias/1
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \  \"nome\": \"Desenvolvimento de Sistemas\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });"
+    language: text/javascript
+order: 4000

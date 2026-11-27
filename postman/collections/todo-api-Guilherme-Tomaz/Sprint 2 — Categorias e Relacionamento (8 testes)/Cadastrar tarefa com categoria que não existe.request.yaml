@@ -1,0 +1,25 @@
+$kind: http-request
+url: http://localhost:3000/tarefas
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Tarefa categoria invalida\",\r
+
+    \  \"prioridade\": \"media\",\r
+
+    \  \"status\": \"a_fazer\",\r
+
+    \  \"categoria_id\": 99999\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 400 Bad Request\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });"
+    language: text/javascript
+order: 9000

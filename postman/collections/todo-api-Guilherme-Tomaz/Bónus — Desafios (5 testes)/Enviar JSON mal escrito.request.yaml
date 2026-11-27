@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3000/tarefas
+method: POST
+body:
+  type: json
+  content: '{ "titulo": "Quebrado"'
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 400 Bad Request\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });"
+    language: text/javascript
+order: 5000

@@ -1,0 +1,29 @@
+$kind: http-request
+url: http://localhost:3000/tarefas
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Estudar Postman\",\r
+
+    \  \"prioridade\": \"alta\",\r
+
+    \  \"status\": \"a_fazer\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 201 Created\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      const jsonData = pm.response.json();\r
+
+      pm.environment.set(\"tarefaId\", jsonData.id);\r\n\r\n      pm.environment.set(\"tarefa_id\", jsonData.id);"
+    language: text/javascript
+order: 2000

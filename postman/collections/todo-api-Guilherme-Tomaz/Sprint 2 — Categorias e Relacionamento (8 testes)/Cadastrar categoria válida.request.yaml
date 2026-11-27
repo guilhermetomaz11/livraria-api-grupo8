@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://localhost:3000/categorias
+method: POST
+body:
+  type: json
+  content: "{\r\n  \"nome\": \"Faculdade\"\r\n}"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 201 Created\", () => pm.response.to.have.status(201));\r
+
+      pm.environment.set(\"categoria_id\", pm.response.json().id);"
+    language: text/javascript
+order: 2000

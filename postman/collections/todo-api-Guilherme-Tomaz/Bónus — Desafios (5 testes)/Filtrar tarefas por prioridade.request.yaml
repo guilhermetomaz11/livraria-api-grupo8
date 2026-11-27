@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://localhost:3000/tarefas?prioridade=alta
+method: GET
+queryParams:
+  prioridade: alta
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });"
+    language: text/javascript
+order: 2000

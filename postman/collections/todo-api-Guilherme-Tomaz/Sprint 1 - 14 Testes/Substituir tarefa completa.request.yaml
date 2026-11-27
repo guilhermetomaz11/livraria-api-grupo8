@@ -1,0 +1,23 @@
+$kind: http-request
+url: http://localhost:3000/tarefas/{{tarefa_id}}
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Estudar Postman e Express\",\r
+
+    \  \"prioridade\": \"media\",\r
+
+    \  \"status\": \"fazendo\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });"
+    language: text/javascript
+order: 6000
